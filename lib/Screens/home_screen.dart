@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:all_paws/Screens/main_drawer.dart';
+
 import './animal.dart';
 import 'package:all_paws/Screens/welcome_screen.dart';
 import 'package:all_paws/controllers/authentication.dart';
@@ -18,24 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 30),
-                child: IconButton(
-                  icon: Icon(Icons.logout),
-                  onPressed: () => signOutUser().then((value) =>
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WelcomeScreen()))),
-                ),
-              )
-            ],
-          ),
-        ),
+        drawer: MainDrawer(),
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
