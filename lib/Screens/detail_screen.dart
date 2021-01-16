@@ -80,7 +80,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         SizedBox(width: 10),
                         Container(
-                          width: 150,
+                          width: 120,
                           child: Text(
                             "${widget.animal.breed}",
                             overflow: TextOverflow.ellipsis,
@@ -103,9 +103,12 @@ class _DetailScreenState extends State<DetailScreen> {
                           size: 30,
                         ),
                         SizedBox(width: 10),
-                        Text(
-                          "${widget.animal.gender}",
-                          style: TextStyle(fontSize: 18, letterSpacing: 2),
+                        Container(
+                          width: 70,
+                          child: Text(
+                            "${widget.animal.gender}",
+                            style: TextStyle(fontSize: 17, letterSpacing: 2),
+                          ),
                         )
                       ],
                     ),

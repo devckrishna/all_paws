@@ -1,11 +1,16 @@
+import 'package:all_paws/models/user.dart';
+import 'package:all_paws/utils/utility.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 final gooleSignIn = GoogleSignIn();
+User0 user = User0();
+final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-Future<bool> googleSignIn() async {
+Future<User> googleSignIn() async {
   GoogleSignInAccount googleSignInAccount = await gooleSignIn.signIn();
   if (googleSignInAccount != null) {
     GoogleSignInAuthentication googleSignInAuthentication =
@@ -22,11 +27,11 @@ Future<bool> googleSignIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setBool('isLoggedIn', true);
-    return Future.value(true);
+    return user;
   }
 }
 
-Future<bool> signIn(String email, String password) async {
+Future<User> signIn(String email, String password) async {
   try {
     UserCredential result =
         await auth.signInWithEmailAndPassword(email: email, password: password);
@@ -34,20 +39,20 @@ Future<bool> signIn(String email, String password) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setBool('isLoggedIn', true);
-    return Future.value(true);
+    return user;
   } catch (e) {}
 }
 
-Future<bool> signUp(String email, String password) async {
+Future<User> signUp(String email, String password) async {
   try {
     UserCredential result = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
     User user = result.user;
-    return Future.value(true);
+    return user;
   } catch (e) {}
 }
 
-Future<bool> signOutUser() async {
+Future<User> signOutUser() async {
   User user = auth.currentUser;
 
   await gooleSignIn.disconnect().whenComplete(() async {
@@ -57,5 +62,32 @@ Future<bool> signOutUser() async {
     prefs.remove('isLoggedIn');
   });
 
-  return Future.value(true);
+  return user;
+}
+
+Future<bool> authenticateUser(User user) async {
+  QuerySnapshot result = await FirebaseFirestore.instance
+      .collection("users")
+      .where("email", isEqualTo: user.email)
+      .get();
+
+  final List<DocumentSnapshot> docs = result.docs;
+  return docs.length == 0 ? true : false;
+}
+
+Future<void> addDataToDb(User currentUser) async {
+  String username = Util.getUserName(currentUser.email);
+
+  user = User0(
+    uid: currentUser.uid,
+    email: currentUser.email,
+    name: currentUser.displayName,
+    profilePhoto: currentUser.photoURL,
+    username: username,
+  );
+
+  FirebaseFirestore.instance
+      .collection("users")
+      .doc(currentUser.uid)
+      .set(user.toMap(user, "", "", "", ""));
 }

@@ -1,5 +1,6 @@
 import 'package:all_paws/Screens/home_screen.dart';
 import 'package:all_paws/controllers/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,6 +17,25 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   bool showLoading = false;
 
+  authenticateUsers(User user) {
+    authenticateUser(user).then((isNewUser) => {
+          if (isNewUser)
+            {
+              addDataToDb(user).then((value) => Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) {
+                    return HomeScreen();
+                  })))
+            }
+          else
+            {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return HomeScreen();
+              }))
+            }
+        });
+  }
+
   logInUser(BuildContext context) async {
     _formKey.currentState.save();
     print(_email);
@@ -25,8 +45,36 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = true;
         showLoading = true;
       });
-      bool isSignedIn = await signIn(_email, _password);
-      if (isSignedIn) {
+      User isSignedIn = await signIn(_email, _password);
+      if (isSignedIn != null) {
+        authenticateUsers(isSignedIn);
+        setState(() {
+          isLoading = false;
+          showLoading = false;
+        });
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        print("error");
+      }
+    } catch (e) {
+      print("something went wrong");
+    }
+    setState(() {
+      isLoading = false;
+      showLoading = false;
+    });
+  }
+
+  logInUserWithGoogle(BuildContext context) async {
+    try {
+      setState(() {
+        isLoading = true;
+        showLoading = true;
+      });
+      User isSignedIn = await googleSignIn();
+      if (isSignedIn != null) {
+        authenticateUsers(isSignedIn);
         setState(() {
           isLoading = false;
           showLoading = false;
@@ -179,11 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 15,
                       ),
                       InkWell(
-                        onTap: () => googleSignIn().whenComplete(() =>
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()))),
+                        onTap: () => logInUserWithGoogle(context),
                         child: Image(
                           image: AssetImage("images/welcome/google.png"),
                           height: 35,

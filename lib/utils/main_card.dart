@@ -41,7 +41,7 @@ class MainCard extends StatelessWidget {
                     Row(children: [
                       Text("${animal.name}",
                           style: GoogleFonts.redressed(
-                              fontSize: 35,
+                              fontSize: 30,
                               letterSpacing: 2,
                               fontWeight: FontWeight.bold,
                               color: Colors.deepPurple[900])),
@@ -51,7 +51,7 @@ class MainCard extends StatelessWidget {
                     ),
                     Text(
                       "${animal.location}",
-                      style: TextStyle(fontSize: 15, letterSpacing: 2),
+                      style: TextStyle(fontSize: 12, letterSpacing: 2),
                     ),
                     Text(
                       "${animal.ageNumber} Years Old",

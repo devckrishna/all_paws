@@ -1,5 +1,6 @@
 import 'package:all_paws/Screens/home_screen.dart';
 import 'package:all_paws/controllers/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 
 class SignUpScreen extends StatefulWidget {
@@ -18,13 +19,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
   bool showLoading = false;
 
-  signInUser(BuildContext context) {
+  authenticateUsers(User user) {
+    authenticateUser(user).then((isNewUser) => {
+          if (isNewUser)
+            {
+              addDataToDb(user).then((value) => Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) {
+                    return HomeScreen();
+                  })))
+            }
+          else
+            {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return HomeScreen();
+              }))
+            }
+        });
+  }
+
+  logInUserWithGoogle(BuildContext context) async {
     try {
-      googleSignIn().then((value) => Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen())));
-    } catch (err) {
-      print("Something went wrong");
+      setState(() {
+        isLoading = true;
+        showLoading = true;
+      });
+      User isSignedIn = await googleSignIn();
+      if (isSignedIn != null) {
+        authenticateUsers(isSignedIn);
+        setState(() {
+          isLoading = false;
+          showLoading = false;
+        });
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        print("error");
+      }
+    } catch (e) {
+      print("something went wrong");
     }
+    setState(() {
+      isLoading = false;
+      showLoading = false;
+    });
   }
 
   registerUser() async {
@@ -36,10 +74,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         isLoading = true;
         showLoading = true;
       });
-      bool isSignedUp = await signUp(_email, _password);
-      if (isSignedUp) {
-        bool isSignedIn = await signIn(_email, _password);
-        if (isSignedIn) {
+      User isSignedUp = await signUp(_email, _password);
+      if (isSignedUp != null) {
+        User isSignedIn = await signIn(_email, _password);
+        if (isSignedIn != null) {
+          authenticateUsers(isSignedIn);
           setState(() {
             isLoading = false;
             showLoading = false;
@@ -212,7 +251,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 15,
                 ),
                 InkWell(
-                  onTap: () => signInUser(context),
+                  onTap: () => logInUserWithGoogle(context),
                   child: Image(
                     image: AssetImage("images/welcome/google.png"),
                     height: 35,
