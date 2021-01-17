@@ -1,3 +1,6 @@
+import 'package:all_paws/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -12,6 +15,94 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   bool _isFav = false;
+  bool _isAdopted = false;
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .then((value) {
+      DocumentSnapshot arr = value;
+      if (arr["favorites"].contains(widget.animal.id)) {
+        setState(() {
+          _isFav = true;
+        });
+      }
+      if (arr["adoptions"].contains(widget.animal.id)) {
+        setState(() {
+          _isAdopted = true;
+        });
+      }
+    });
+  }
+
+  User user = FirebaseAuth.instance.currentUser;
+
+  addToAdoptions() async {
+    List<dynamic> val = [widget.animal.id];
+
+    DocumentSnapshot arr = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    print(arr["adoptions"]);
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .update({"adoptions": FieldValue.arrayUnion(val)});
+  }
+
+  removeFromAdoptions() async {
+    List<dynamic> val = [widget.animal.id];
+
+    DocumentSnapshot arr = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    print(arr["adoptions"]);
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .update({"adoptions": FieldValue.arrayRemove(val)});
+  }
+
+  addToFavorites() async {
+    List<dynamic> val = [widget.animal.id];
+
+    DocumentSnapshot arr = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    print(arr["favorites"]);
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .update({"favorites": FieldValue.arrayUnion(val)});
+  }
+
+  removeFromFavorites() async {
+    List<dynamic> val = [widget.animal.id];
+
+    DocumentSnapshot arr = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    print(arr["favorites"]);
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .update({"favorites": FieldValue.arrayRemove(val)});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,33 +247,68 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    height: 70,
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.deepPurple,
-                      boxShadow: [
-                        //background color of box
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 15.0, // soften the shadow
-                          spreadRadius: 0.2, //extend the shadow
-                          offset: Offset(
-                            5.0, // Move to right 10  horizontally
-                            5.0, // Move to bottom 10 Vertically
-                          ),
-                        )
-                      ],
-                    ),
-                    child: Text(
-                      "Adopt Now",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                        letterSpacing: 3,
-                        color: Colors.white,
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _isAdopted = !_isAdopted;
+                      });
+                      if (_isAdopted) {
+                        addToAdoptions();
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              Future.delayed(Duration(seconds: 1), () {
+                                Navigator.of(context).pop(true);
+                              });
+                              return AlertDialog(
+                                title: Text('Status'),
+                                content: Text('Adoption Request Sent'),
+                              );
+                            });
+                      }
+                      if (!_isAdopted) {
+                        removeFromAdoptions();
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              Future.delayed(Duration(seconds: 1), () {
+                                Navigator.of(context).pop(true);
+                              });
+                              return AlertDialog(
+                                title: Text('Status'),
+                                content: Text('Adoption Request Withdrawn'),
+                              );
+                            });
+                      }
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 70,
+                      width: MediaQuery.of(context).size.width * 0.65,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.deepPurple,
+                        boxShadow: [
+                          //background color of box
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 15.0, // soften the shadow
+                            spreadRadius: 0.2, //extend the shadow
+                            offset: Offset(
+                              5.0, // Move to right 10  horizontally
+                              5.0, // Move to bottom 10 Vertically
+                            ),
+                          )
+                        ],
+                      ),
+                      child: Text(
+                        "Adopt Now",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          letterSpacing: 3,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -191,6 +317,12 @@ class _DetailScreenState extends State<DetailScreen> {
                       setState(() {
                         _isFav = !_isFav;
                       });
+                      if (_isFav) {
+                        addToFavorites();
+                      }
+                      if (!_isFav) {
+                        removeFromFavorites();
+                      }
                     },
                     child: Container(
                       alignment: Alignment.center,

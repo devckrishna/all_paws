@@ -1,3 +1,5 @@
+import 'package:all_paws/Screens/animal.dart';
+
 class User0 {
   String uid;
   String name;
@@ -11,6 +13,8 @@ class User0 {
   String gender;
   String interestedIn;
   String age;
+  List<Animal> favorites;
+  List<Animal> adoptions;
 
   User0(
       {this.uid,
@@ -24,7 +28,9 @@ class User0 {
       this.about,
       this.age,
       this.gender,
-      this.interestedIn});
+      this.interestedIn,
+      this.favorites,
+      this.adoptions});
 
   Map toMap(User0 user, String about, String age, String gender,
       String interestedIn) {
@@ -41,6 +47,8 @@ class User0 {
     data["age"] = age;
     data["gender"] = gender;
     data["interestedIn"] = interestedIn;
+    data["favorites"] = user.favorites;
+    data["adoptions"] = user.adoptions;
     return data;
   }
 
@@ -53,5 +61,7 @@ class User0 {
     this.status = mapData["status"];
     this.profilePhoto = mapData["profilePhoto"];
     this.password = mapData["password"];
+    this.favorites = mapData["favorites"];
+    this.adoptions = mapData["adoptions"];
   }
 }

@@ -18,6 +18,7 @@ class Animal {
   final List<String> photos;
   final String breed;
   final String id;
+  final String email;
   bool isFavourite;
   bool isAdopted;
   Animal(
@@ -39,6 +40,7 @@ class Animal {
       this.breed,
       this.id,
       this.isFavourite = false,
+      this.email,
       this.isAdopted = false});
 
   void toggleFavourite() {
@@ -52,6 +54,7 @@ class Animal {
 
 List<Animal> dogs = [
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '0',
     name: 'Chilli',
     breedline1: 'Cocker',
@@ -64,13 +67,14 @@ List<Animal> dogs = [
     location: 'New Delhi\, India',
     weightNumber: '11',
     weightUnit: 'kg',
-    ownerName: 'Ishaan Wakhloo',
+    ownerName: 'Michael Scott',
     ownerImagePath: 'images/ishaan.png',
     ownerCategory: 'Owner',
     ownerStatement: kIshaanText,
     photos: ['images/chilli1.jpeg', 'images/chilli2.png', 'images/chilli3.png'],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '1',
     name: 'Moose',
     breedline1: 'Corgi',
@@ -83,7 +87,7 @@ List<Animal> dogs = [
     location: 'Mumbai\, India',
     weightNumber: '13',
     weightUnit: 'kg',
-    ownerName: 'Srishti Vashistha',
+    ownerName: 'Pam',
     ownerImagePath: 'images/srishti.jpg',
     ownerCategory: 'Owner',
     ownerStatement: kMooseText,
@@ -94,6 +98,7 @@ List<Animal> dogs = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '2',
     name: 'Kyra',
     breedline1: 'Dach-',
@@ -106,7 +111,7 @@ List<Animal> dogs = [
     location: 'New Delhi\, India',
     weightNumber: '7',
     weightUnit: 'kg',
-    ownerName: 'Laasya Choudary',
+    ownerName: 'Jim Halpert',
     ownerImagePath: 'images/laasya.png',
     ownerCategory: 'Owner',
     ownerStatement: kKyraStatement,
@@ -117,6 +122,7 @@ List<Animal> dogs = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '3',
     name: 'Marshall',
     breedline1: 'Golden',
@@ -140,6 +146,7 @@ List<Animal> dogs = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '4',
     name: 'Soba',
     breedline1: 'Toy',
@@ -152,7 +159,7 @@ List<Animal> dogs = [
     location: 'New Delhi\, India',
     weightNumber: '4',
     weightUnit: 'kg',
-    ownerName: 'Bhavini Sehgal',
+    ownerName: 'Dogs Association',
     ownerImagePath: 'images/bhavini.png',
     ownerCategory: 'Owner',
     ownerStatement: kSobaText,
@@ -166,6 +173,7 @@ List<Animal> dogs = [
 
 List<Animal> cats = [
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '5',
     name: 'Buffy',
     breedline1: 'British',
@@ -178,7 +186,7 @@ List<Animal> cats = [
     location: 'New Delhi\, India',
     weightNumber: '4',
     weightUnit: 'kg',
-    ownerName: 'Nehal Gupta',
+    ownerName: 'Dwight Shroot',
     ownerImagePath: 'images/nehal.png',
     ownerCategory: 'Owner',
     ownerStatement: kBuffySeolText,
@@ -189,6 +197,7 @@ List<Animal> cats = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '6',
     name: 'Willow',
     breedline1: 'British',
@@ -201,7 +210,7 @@ List<Animal> cats = [
     location: 'New Delhi\, India',
     weightNumber: '3',
     weightUnit: 'kg',
-    ownerName: 'Mansi Singhal',
+    ownerName: 'Chetan Anand',
     ownerImagePath: 'images/mansi.jpg',
     ownerCategory: 'Owner',
     ownerStatement: kWillowText,
@@ -212,6 +221,7 @@ List<Animal> cats = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '7',
     name: 'Buttons',
     breedline1: 'Exotic',
@@ -224,7 +234,7 @@ List<Animal> cats = [
     location: 'New Delhi\, India',
     weightNumber: '5',
     weightUnit: 'kg',
-    ownerName: 'Manasvi Singh',
+    ownerName: 'Rishabh Mittal',
     ownerImagePath: 'images/manasvi.JPG',
     ownerCategory: 'Owner',
     ownerStatement: kButtonsText,
@@ -235,6 +245,7 @@ List<Animal> cats = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '8',
     name: 'Seol',
     breedline1: 'Sphynx',
@@ -258,6 +269,7 @@ List<Animal> cats = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '9',
     name: 'Rex',
     breedline1: 'Scottish',
@@ -270,7 +282,7 @@ List<Animal> cats = [
     location: 'New Delhi\, India',
     weightNumber: "4",
     weightUnit: 'kg',
-    ownerName: 'Sameeha Fatima',
+    ownerName: 'Kashish',
     ownerImagePath: 'images/sameeha.png',
     ownerCategory: 'Owner',
     ownerStatement: kRexText,
@@ -284,6 +296,7 @@ List<Animal> cats = [
 
 List<Animal> bunnies = [
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '10',
     name: 'Miso',
     breedline1: 'Holland',
@@ -296,7 +309,7 @@ List<Animal> bunnies = [
     location: 'New Delhi\, India',
     weightNumber: '1.5',
     weightUnit: 'kg',
-    ownerName: 'Ayush Rai',
+    ownerName: 'Mansi Aggarwal',
     ownerImagePath: 'images/ayush.png',
     ownerCategory: 'Owner',
     ownerStatement: kMisoText,
@@ -307,6 +320,7 @@ List<Animal> bunnies = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '11',
     name: 'PuiPui',
     breedline1: ' Nether-',
@@ -319,7 +333,7 @@ List<Animal> bunnies = [
     location: 'New Delhi\, India',
     weightNumber: '1',
     weightUnit: 'kg',
-    ownerName: 'Sejal Vachher',
+    ownerName: 'Dev C Krishna',
     ownerImagePath: 'images/sejal.png',
     ownerCategory: 'Owner',
     ownerStatement: kPuiPuiText,
@@ -330,6 +344,7 @@ List<Animal> bunnies = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '12',
     name: 'Lemon',
     breedline1: 'Holland',
@@ -342,7 +357,7 @@ List<Animal> bunnies = [
     location: 'New Delhi\, India',
     weightNumber: '1.8',
     weightUnit: 'kg',
-    ownerName: 'Shaurya Maan Gusain',
+    ownerName: 'Armaan Malik',
     ownerImagePath: 'images/shaurya.png',
     ownerCategory: 'Owner',
     ownerStatement: kLemonText,
@@ -356,6 +371,7 @@ List<Animal> bunnies = [
 
 List<Animal> birds = [
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '13',
     name: 'Pipo',
     breedline1: 'Budge-',
@@ -379,6 +395,7 @@ List<Animal> birds = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '14',
     name: 'Hedwig',
     breedline1: 'Snowy',
@@ -402,6 +419,7 @@ List<Animal> birds = [
     ],
   ),
   Animal(
+    email: "dev.c.krishna.12345@gmail.com",
     id: '15',
     name: 'Buba',
     breedline1: 'Parakeet',
